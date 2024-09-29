@@ -6,10 +6,10 @@ def load_requirements(file_name):
         return f.read().splitlines()
 
 setup(
-    name='abinitioTools',
+    name='gnn_test',
     version='0.1', 
     packages=find_packages(),  
     install_requires=load_requirements('requirements.txt'), 
     author='Naoki Kitamura',   
-    url='https://github.com/nkitamuraQC/abinitioTools.git',  
+    url='https://github.com/nkitamuraQC/gnn_test.git',  
 )
