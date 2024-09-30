@@ -19,3 +19,7 @@ conda activate gnn_test
 git clone https://github.com/nkitamuraQC/gnn_test.git
 pip install -r requirements.txt
 ```
+
+## TODO
+- 動作確認
+- formatting
