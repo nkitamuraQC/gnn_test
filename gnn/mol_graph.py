@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import os
 
+
 def parse_csv():
     df = pd.read_csv("eSOL.csv")
 
@@ -14,14 +15,14 @@ def parse_csv():
     xyz = []
 
     os.system("mkdir xyz")
-    #os.chdir("./xyz")
-    
+    # os.chdir("./xyz")
+
     for i in range(nrow):
         sol_list.append(sol.iloc[i])
         sm = smiles.iloc[i]
         print("sm =", sm)
         os.system(f"echo '{sm}' | obabel -i smi -o xyz -O ./xyz/out_{i}.xyz --gen3D")
-        
+
         xyz_ = []
         with open(f"./xyz/out_{i}.xyz", "r") as f:
             lines = f.readlines()
@@ -34,12 +35,13 @@ def parse_csv():
         xyz.append(xyz_)
 
     print("sol_list =", sol_list)
-    #print("xyz =", xyz)
+    # print("xyz =", xyz)
     return sol_list, xyz
+
 
 class mol_graph:
     def __init__(self, xyz):
-        self.xyz = xyz # [["C", xyz], ["C", xyz]]
+        self.xyz = xyz  # [["C", xyz], ["C", xyz]]
         self.x_min = 10
         self.x_max = 100
         self.L = 10
@@ -49,7 +51,7 @@ class mol_graph:
 
     def seperate(self):
         diff = (self.x_max - self.x_min) / (self.L)
-        intervals = [self.x_min + diff * i for i in range(self.L+1)]
+        intervals = [self.x_min + diff * i for i in range(self.L + 1)]
         self.intervals = intervals
         return intervals
 
@@ -66,25 +68,26 @@ class mol_graph:
                 xyz1 = self.xyz[i][1]
                 for j in range(len(self.xyz)):
                     xyz2 = self.xyz[j][1]
-                    dist = np.linalg.norm(xyz1-xyz2)
-                    if dist > intervals[l] and dist < intervals[l+1]:
-                        adj[l,i,j] = 1
+                    dist = np.linalg.norm(xyz1 - xyz2)
+                    if dist > intervals[l] and dist < intervals[l + 1]:
+                        adj[l, i, j] = 1
         return adj
 
     def save(self, adj, filename):
         np.save(filename, adj)
         return
-    
+
     def output(self, adj, filename, txt=""):
         with open(filename, "w") as f:
             for l in range(adj.shape[0]):
                 for i in range(adj.shape[1]):
                     for j in range(adj.shape[2]):
-                        val = adj[l,i,j]
+                        val = adj[l, i, j]
                         txt += f"{l} {i} {j} {val}\n"
             f.write(txt)
         return
-    
+
+
 if __name__ == "__main__":
     os.system("mkdir tmp")
     sol_s, xyz_s = parse_csv()
@@ -95,7 +98,3 @@ if __name__ == "__main__":
         mol = mol_graph(xyz)
         adj = mol.get_adjMat()
         mol.output(adj, mol_name.format(i=i))
-
-
-
-

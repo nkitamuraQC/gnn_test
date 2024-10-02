@@ -1,6 +1,7 @@
 import numpy as np
 import json, os
 
+
 def parse_xyz(n_mols=800):
     all = []
     for i in range(n_mols):
@@ -14,6 +15,7 @@ def parse_xyz(n_mols=800):
                     mol.append([elem, np.array([x, y, z])])
         all.append(mol)
     return all
+
 
 class node_feature:
     def __init__(self, xyz, i):
@@ -30,35 +32,47 @@ class node_feature:
 
     def seperate(self):
         diff = (self.x_max - self.x_min) / (self.L)
-        intervals = [self.x_min + diff * i for i in range(self.L+1)]
+        intervals = [self.x_min + diff * i for i in range(self.L + 1)]
         self.intervals = intervals
         return intervals
-    
+
     def get_nelems(self):
-        self.save = {"C":0, "H":1, "O":2, "N":3, "P":4, "Cl":5, "F":6, "Br":7, "S":8, "Si":9, "I":10}
-        return 
-    
+        self.save = {
+            "C": 0,
+            "H": 1,
+            "O": 2,
+            "N": 3,
+            "P": 4,
+            "Cl": 5,
+            "F": 6,
+            "Br": 7,
+            "S": 8,
+            "Si": 9,
+            "I": 10,
+        }
+        return
+
     def get_node_feature(self):
         intervals = self.seperate()
-        #n = self.get_nelems()
-        #natoms = len(self.xyz)
+        # n = self.get_nelems()
+        # natoms = len(self.xyz)
         feature = np.zeros((self.natoms, self.L, self.nelems), dtype=int)
         for l in range(self.L):
             a = intervals[l]
-            b = intervals[l+1]
+            b = intervals[l + 1]
             for i in range(len(self.xyz)):
                 xyz1 = self.xyz[i][1]
                 for j in range(len(self.xyz)):
                     xyz2 = self.xyz[j][1]
                     elem = self.xyz[j][0]
-                    dist = np.linalg.norm(xyz1-xyz2)
+                    dist = np.linalg.norm(xyz1 - xyz2)
                     if a <= dist and dist < b:
                         idx = self.save[elem]
-                        feature[i,l,idx] += 1
+                        feature[i, l, idx] += 1
         self.feature = feature
         np.save(self.feature_file, feature)
         return feature
-    
+
     def output_log(self):
         dic = {}
         dic["intervals"] = self.intervals
@@ -66,24 +80,22 @@ class node_feature:
         with open(self.log, "w") as f:
             json.dump(dic, f, indent=4)
         return
-    
+
     def output_feature(self, txt=""):
         with open(self.feature_log, "w") as f:
             for i in range(self.feature.shape[0]):
                 for j in range(self.feature.shape[1]):
                     for k in range(self.feature.shape[2]):
-                        val = self.feature[i,j,k]
+                        val = self.feature[i, j, k]
                         txt += f"{i} {j} {k} {val}\n"
             f.write(txt)
         return
 
+
 if __name__ == "__main__":
-    xyz_s = parse_xyz() 
+    xyz_s = parse_xyz()
     for i, xyz in enumerate(xyz_s):
         node = node_feature(xyz, i)
         node.get_nelems()
         feature = node.get_node_feature()
         node.output_feature()
-        
-
-        

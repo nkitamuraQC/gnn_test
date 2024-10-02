@@ -3,6 +3,7 @@ from gnn import GNN
 import gnn
 import torch
 
+
 class Mol_GDL(torch.nn.Module):
     def __init__(self):
         super(Mol_GDL, self).__init__()
@@ -16,7 +17,6 @@ class Mol_GDL(torch.nn.Module):
         features = self.mp.forward(features)
         features = self.gnn.forward(features)
         return features
-
 
     def dense(self, features):
         return
