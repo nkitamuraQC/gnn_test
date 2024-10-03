@@ -17,7 +17,7 @@ def parse_xyz(n_mols=800):
     return all
 
 
-class node_feature:
+class NodeFeature:
     def __init__(self, xyz, i):
         os.system("mkdir feature")
         self.xyz = xyz
@@ -95,7 +95,7 @@ class node_feature:
 if __name__ == "__main__":
     xyz_s = parse_xyz()
     for i, xyz in enumerate(xyz_s):
-        node = node_feature(xyz, i)
+        node = NodeFeature(xyz, i)
         node.get_nelems()
         feature = node.get_node_feature()
         node.output_feature()

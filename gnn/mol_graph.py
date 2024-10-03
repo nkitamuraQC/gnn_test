@@ -39,7 +39,7 @@ def parse_csv():
     return sol_list, xyz
 
 
-class mol_graph:
+class MolGraph:
     def __init__(self, xyz):
         self.xyz = xyz  # [["C", xyz], ["C", xyz]]
         self.x_min = 10
@@ -95,6 +95,6 @@ if __name__ == "__main__":
     mol_name = "./tmp/mol_adj_{i}.txt"
     for i, xyz in enumerate(xyz_s):
         print("xyz =", xyz)
-        mol = mol_graph(xyz)
+        mol = MolGraph(xyz)
         adj = mol.get_adjMat()
         mol.output(adj, mol_name.format(i=i))

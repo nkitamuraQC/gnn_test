@@ -1,5 +1,5 @@
-from message_passing import message_passing
-from gnn import GNN
+from gnn.message_passing import MessagePassing
+from gnn.gnn import GNN
 import gnn
 import torch
 
@@ -7,7 +7,7 @@ import torch
 class Mol_GDL(torch.nn.Module):
     def __init__(self):
         super(Mol_GDL, self).__init__()
-        self.mp = message_passing()
+        self.mp = MessagePassing()
         self.feature = self.mp.read_feature(0)
         self.mp.read_adj(0)
         self.mp.init_params()
@@ -17,6 +17,3 @@ class Mol_GDL(torch.nn.Module):
         features = self.mp.forward(features)
         features = self.gnn.forward(features)
         return features
-
-    def dense(self, features):
-        return

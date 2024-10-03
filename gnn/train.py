@@ -4,7 +4,7 @@ import torch, os
 from torch_geometric.data import Dataset, download_url
 from torch_geometric.data import Data, InMemoryDataset
 from Mol_GDL import Mol_GDL
-from message_passing import message_passing
+from message_passing import MessagePassing
 import pandas as pd
 
 device = "cpu"
@@ -36,7 +36,7 @@ def parse_csv():
 def train(epoch, n_train):
     model.train()
     loss_all = 0
-    mp = message_passing()
+    mp = MessagePassing()
     ys = parse_csv()
 
     mae_loss = torch.nn.L1Loss()
@@ -62,7 +62,7 @@ def test(epoch, n_train):
     model.eval()
     loss_all = 0
     mae_loss = torch.nn.L1Loss()
-    mp = message_passing()
+    mp = MessagePassing()
     ys = parse_csv()
     for i in range(n_train, all):
         features = torch.from_numpy(mp.read_feature(i))
