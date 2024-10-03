@@ -1,5 +1,5 @@
 from gnn.message_passing import MessagePassing
-from gnn.gnn import GNN
+from gnn.gnnclass import GNN
 import gnn
 import torch
 
