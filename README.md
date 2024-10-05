@@ -17,12 +17,8 @@ python train.py
 ## Installation
 
 ```shell
-conda create -n gnn_test python=3.10
+conda create -n gnn_test python=3.9
 conda activate gnn_test
 git clone https://github.com/nkitamuraQC/gnn_test.git
 pip install -r requirements.txt
 ```
-
-## TODO
-- 動作確認
-- formatting
