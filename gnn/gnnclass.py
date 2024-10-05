@@ -27,7 +27,6 @@ class GNN(torch.nn.Module):
     def forward(self, feature):
         node = feature.shape[0]
         L = feature.shape[1]
-        nelem = feature.shape[2]
         feature = feature.reshape((node, -1))
         # print("feature_size1 =", feature.size())
         batch = torch.tensor([0 for i in range(node)])
@@ -51,29 +50,3 @@ class GNN(torch.nn.Module):
         feature = self.linear4(feature)
         # print("feature_size8 =", feature.size())
         return feature[0]
-
-    def output_vector(self):
-        node = feature.shape[0]
-        L = feature.shape[1]
-        nelem = feature.shape[2]
-        feature = feature.reshape((node, -1))
-        # print("feature_size1 =", feature.size())
-        batch = torch.tensor([0 for i in range(node)])
-        feature = self.pooling(feature, batch)
-        # print("feature_size2 =", feature.size())
-        feature = feature.to(torch.float32)
-        feature = feature.reshape((1, -1))
-        # print("feature_size3 =", feature.size())
-        feature = self.linear(feature)
-        # print("feature_size4 =", feature.size())
-        feature = self.ReLU(feature)
-        # print("feature_size5 =", feature.size())
-        batch = torch.tensor([0 for i in range(L)])
-        feature = feature.reshape((L, -1))
-        # print("feature_size6 =", feature.size())
-        feature = self.readout(feature, batch)
-        # print("feature_size7 =", feature.size())
-        feature = self.linear2(feature)
-        feature = self.ReLU(feature)
-        feature = self.linear3(feature)
-        return feature

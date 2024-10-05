@@ -1,16 +1,9 @@
-import os.path as osp
-import numpy as np
-import torch, os
-from torch_geometric.data import Dataset, download_url
-from torch_geometric.data import Data, InMemoryDataset
 from Mol_GDL import Mol_GDL
 from message_passing import MessagePassing
 import pandas as pd
+import torch
 
 device = "cpu"
-
-import torch
-from torch_geometric.data import InMemoryDataset, download_url
 
 
 all = 800
@@ -18,16 +11,9 @@ all = 800
 
 def parse_csv():
     df = pd.read_csv("eSOL.csv")
-
     sol = df["measured log solubility in mols per litre"]
-
     nrow = len(df)
-
     sol_list = []
-
-    os.system("mkdir xyz")
-    # os.chdir("./xyz")
-
     for i in range(nrow):
         sol_list.append(sol.iloc[i])
     return sol_list
@@ -40,7 +26,7 @@ def train(epoch, n_train):
     ys = parse_csv()
 
     mae_loss = torch.nn.L1Loss()
-    mse_loss = torch.nn.MSELoss()
+    #mse_loss = torch.nn.MSELoss()
     for i in range(n_train):
         features = torch.from_numpy(mp.read_feature(i))
         # features = features.to(torch.float32)
