@@ -1,5 +1,5 @@
 # gnn_test
-gnn_test is a experimental code for predicting molecular properties with a graph neural network.
+gnn_test is an experimental code for predicting molecular properties with a graph neural network.
 
 ## Features
 - molecular geometric deep learning
