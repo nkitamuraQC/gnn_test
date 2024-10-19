@@ -2,8 +2,9 @@
 gnn_test is an experimental code for predicting molecular properties with a graph neural network.
 
 ## Features
-- molecular geometric deep learning
+- molecular geometric deep learning (for the ESOL dataset)
   - see https://arxiv.org/abs/2306.15065
+  - see also https://pubs.acs.org/doi/10.1021/ci034243x
 
 ## Usages
 
